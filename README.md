@@ -1,0 +1,2 @@
+# newsshow
+show news
