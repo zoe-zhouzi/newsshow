@@ -1,0 +1,84 @@
+// 修改分页颜色
+.el-pagination {
+	position: absolute;
+	display: inline-block;
+	// margin: 0 auto;
+	// left:50%;
+	// transform: translateX(-50%);
+	// background-color: #fafafa;
+	// border: solid 1px #dfe8eb;
+	// padding: 0 !important;
+	margin-top: 30px !important;
+	.el-pager{
+		margin:0 !important;
+		// margin: 0 !important;
+		.number{
+			margin:0 10px !important;
+			color: black !important;
+			// border-left: 1px solid #dfe8eb;
+			// border-right: 1px solid #dfe8eb;
+			// background-color: #fafafa !important;
+			&.active{
+				color: #fff !important;
+				//border: 1px  solid  #3d66e4;
+				background-color: #cd131c !important;
+				// border: 1px solid #cd131c !important;
+			}
+		}
+		
+	}
+	
+}
+
+.el-calendar {
+	float: right;
+	width: 340px;
+	height: 160px !important;
+	.el-calendar-table .el-calendar-day {
+		box-sizing: border-box;
+		padding: 0px !important;
+		height: 35px !important;
+		text-align: center;
+		line-height: 35px;
+		font-size: 14px !important;
+	}
+	.el-calendar__title {
+		display: block !important;
+	}
+	.el-calendar__header {
+		display: flex;
+		justify-content: space-between;
+		padding: 0px 0px;
+		// border-bottom: 1px solid #EBEEF5;
+		border-bottom: 1px;
+		flex-direction: column;
+	}
+	.el-calendar__button-group {
+		display: inline-block;
+		text-align: center;
+	}
+	.el-calendar__body {
+		padding: 0px 35px 35px;
+	}
+}	
+
+.el-calendar-table td.is-today {
+    color: #409EFF;
+    // color: #F79B9E;
+    // color: #cd131c;
+}
+
+.el-calendar-table td.is-selected {
+    // background-color: #F79B9E;
+    // background-color: #cd131c;
+}
+
+/* .el-button--primary.is-plain {
+    color: #409EFF;
+    color: #409EFF;
+    // background: #ecf5ff;
+    background: white;
+    // border-color: #b3d8ff;
+    border-color: #b3d8ff;
+} */
+
