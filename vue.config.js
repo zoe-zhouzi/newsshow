@@ -10,8 +10,8 @@ module.exports = defineConfig({
         // 本地打包的时候使用
         // target: "http://172.16.0.8:5001"
         // 本地测试使用线上数据库时候使用
-        target: "http://172.17.33.136:5001"
-        // target: "http://127.0.0.1:5001"
+        // target: "http://172.17.33.136:5001"
+        target: "http://127.0.0.1:5001"
       },
     }
   },

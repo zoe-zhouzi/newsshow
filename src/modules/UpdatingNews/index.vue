@@ -1,6 +1,7 @@
 <template>
     <div class="real-time">
         <el-button class="el-buttons" @click="goTenNews">点击我进入动态滚动新闻</el-button>
+        <el-button class="el-buttons" @click="goSohuSearch">点击我进入搜狐搜索页</el-button>
         <LeftNav @sendType="reiceiveType" />
         <div class="main">
             <div class="type">{{ type }}</div>
@@ -74,6 +75,10 @@
             this.timer = null
         },
         methods:{
+            // 进入搜狐搜索页面
+            goSohuSearch() {
+                this.$router.push('/sohusearch');
+            },
             // 开启一个定时向后台请求数据的方法
             setTimer(){
                 if(this.timer == null) {

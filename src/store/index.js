@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import {reqNewsList, reqDataByType, reqNewsTotal, reqNewsListByDate, reqNewsTotalByDate, reqDayData, reqUpdateDB, reqInsertData} from '@/api'
+import {reqNewsList, reqDataByType, reqNewsTotal, reqNewsListByDate, reqNewsTotalByDate, reqDayData, reqUpdateDB, reqInsertData, reqSohuSearch} from '@/api'
 
 Vue.use(Vuex);
 
@@ -87,8 +87,14 @@ const actions = {
         }else {
             console.log('insertTodayNum 状态码非200', result);
         }
+    },
+    async getSohuSearch({commit}, url) {
+        let data = {'url': url}
+        let result = await reqSohuSearch(data);
+        if(result.status == 200) {
+            commit('GET_SOHU_RESULT', result.data);
+        }
     }
-
 }
 const mutations = {
     GET_NEWS_LIST(state, newsList) {
@@ -109,10 +115,9 @@ const mutations = {
     GET_WEEK_NUM(state, weekNum) {
         state.weekNum = weekNum.map(v => {return v.number}).reverse();
         state.weekDate = weekNum.map(v => {return v.id.slice(5).replace('-','')}).reverse();
-        let needAdd = 7 - weekNum.length;
-        for(let i=1; i<=needAdd; i++) {
-            sta
-        }
+    },
+    GET_SOHU_RESULT(state, searchResult) {
+        state.searchResult = searchResult;
     }
 }
 const state = {
@@ -121,9 +126,16 @@ const state = {
     dateNewsList: [],
     dateNewsTotal: 0,
     weekNum: [],
-    weekDate: []
+    weekDate: [],
+    searchResult: {}
 }
 const getters = {
+    sourceArticle(state) {
+        return state.searchResult.source_article || {};
+    },
+    articleList(state) {
+        return state.searchResult.article_list || [];
+    }
 }
 
 export default new Vuex.Store({

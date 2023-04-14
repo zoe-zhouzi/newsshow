@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <router-view></router-view>
-        <RightContent/>
+        <RightContent v-if="$route.meta.isShowRight"/>
     </div>
 </template>
 

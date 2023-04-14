@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import UpdatingNews from '@/modules/UpdatingNews'
 import PassedNews from '@/modules/PassedNews'
 import TenNews from '@/modules/TenNews'
+import SohuSearch from '@/modules/SohuSearch'
 
 Vue.use(VueRouter);
 
@@ -26,19 +27,36 @@ export default new VueRouter({
         {
             path: '/tennews',
             component: TenNews,
-            // meta: {isShowLeft: false}
+            meta: {
+                isShowLeft: false,
+                isShowRight: false,
+            }
         },
         {
             // path: '/realtime/:type?',
             path: '/realtime',
             component: UpdatingNews,
-            meta: {isShowLeft: true}
+            meta: {
+                isShowLeft: true,
+                isShowRight: true,
+            }
         },
         {
             path: '/passednews/:date',
             name: 'passednews',
             component: PassedNews,
-            meta: {isShowLeft: false}
+            meta: {
+                isShowLeft: false,
+                isShowRight: true,
+            }
+        },
+        {
+            path: '/sohusearch',
+            component: SohuSearch,
+            meta: {
+                isShowLeft: false,
+                isShowRight: false,
+            }
         },
         {
             path: '/*',

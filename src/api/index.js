@@ -21,3 +21,5 @@ export const reqDayData = () => requests({method: 'get', url: '/api/get_day_data
 export const reqUpdateDB = (date) => requests({method: 'get', url: `/api/update_db/${date}`})
 
 export const reqInsertData = (date, total) => requests({method: 'get', url: `/api/insert_db/${date}/${total}`})
+// 启动搜狐爬虫
+export const reqSohuSearch = (data) => requests({method: 'post', url:'/api/start_sohusearch', data})
