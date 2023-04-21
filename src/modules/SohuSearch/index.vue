@@ -1,8 +1,25 @@
 <template>
     <div class="sohu-search">
+        <!-- 搜索框 -->
         <div class="page-header">
             <div class="search-box">
                 <div class="search-box2">
+                    <div class="media-type">
+                        <div class="selected">
+                            <div class="media-name">{{ mediaName[0].name }}</div>
+                            <div>
+                                <svg @click="unfoldMediaSelect" v-show="isShowMedia" t="1681371297255" class="icon" viewBox="0 0 1792 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1804" width="200" height="200"><path d="M0 1024h1792L896 0z" fill="#979CA4" p-id="1805"></path></svg>
+                                <svg @click="unfoldMediaSelect" v-show="!isShowMedia" t="1681372143414" class="icon" viewBox="0 0 1778 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1950" width="200" height="200"><path d="M0 0h1776.015857L888.007929 1024z" fill="#979CA4" p-id="1951"></path></svg>
+                            </div>
+                        </div>
+                        <div class="select" v-show="isShowMedia">
+                            <div 
+                                v-for="media in mediaSelectList" 
+                                :key="media.id"
+                                @click="changeSelectedMedia(media.id)"
+                            >{{ media.name }}</div>
+                        </div>
+                    </div>
                     <div class="search-item">
                         <input 
                             class="search-input" 
@@ -18,11 +35,12 @@
                         </div>
                     </div>
                     <div class="search-button">
-                        <svg @click="goSohuSearch" t="1681300918040" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2172" width="200" height="200"><path d="M966.4 924.8l-230.4-227.2c60.8-67.2 96-156.8 96-256 0-217.6-176-390.4-390.4-390.4-217.6 0-390.4 176-390.4 390.4 0 217.6 176 390.4 390.4 390.4 99.2 0 188.8-35.2 256-96l230.4 227.2c9.6 9.6 28.8 9.6 38.4 0C979.2 950.4 979.2 934.4 966.4 924.8zM102.4 441.6c0-185.6 150.4-339.2 339.2-339.2s339.2 150.4 339.2 339.2c0 89.6-35.2 172.8-92.8 233.6-3.2 0-3.2 3.2-6.4 3.2-3.2 3.2-3.2 3.2-3.2 6.4-60.8 57.6-144 92.8-233.6 92.8C256 780.8 102.4 627.2 102.4 441.6z" fill="#bfbfbf" p-id="2173"></path></svg>
+                        <svg @click="goSearch" t="1681300918040" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2172" width="200" height="200"><path d="M966.4 924.8l-230.4-227.2c60.8-67.2 96-156.8 96-256 0-217.6-176-390.4-390.4-390.4-217.6 0-390.4 176-390.4 390.4 0 217.6 176 390.4 390.4 390.4 99.2 0 188.8-35.2 256-96l230.4 227.2c9.6 9.6 28.8 9.6 38.4 0C979.2 950.4 979.2 934.4 966.4 924.8zM102.4 441.6c0-185.6 150.4-339.2 339.2-339.2s339.2 150.4 339.2 339.2c0 89.6-35.2 172.8-92.8 233.6-3.2 0-3.2 3.2-6.4 3.2-3.2 3.2-3.2 3.2-3.2 6.4-60.8 57.6-144 92.8-233.6 92.8C256 780.8 102.4 627.2 102.4 441.6z" fill="#bfbfbf" p-id="2173"></path></svg>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 搜索结果内容 -->
         <div class="page-content" v-if="searchResult">
             <div class="author">
                 <h1>作者：{{ searchResult.author }}</h1>
@@ -52,8 +70,9 @@
                         <div class="title">{{ article.title }}</div>
                         <div class="pub-time">{{ article.publish_time }}</div>
                         <div class="text">
-                        {{ article.text }}
-                    </div>
+                            {{ article.text }}
+                        </div>
+                        <a>{{ sourceArticle.url }}</a>
                     </div>
                 </div>
             </div>
@@ -70,14 +89,31 @@
         data() {
             return {
                 keyword: '',
+                // 用来标识是否显示输入框的清除图标的
                 isShowClear: false,
+                // 用来标识是否显示原文内容
                 isShowSource: false,
+                // 用来标识是否显示最近文章列表
                 isShowList: false,
+                // 用来标识媒体类型的下拉框
+                isShowMedia: false,
+                mediaTypeList: [
+                    {id:1, name: '搜狐', isSelected: true,},
+                    {id:2, name: '百家号', isSelected: false, },
+                    {id:3, name: '头条', isSelected: false, },
+                    {id:4, name: '网易', isSelected: false, }
+                ],
             }
         },
         computed: {
-            ...mapState(["searchResult"]),
-            ...mapGetters(["sourceArticle", "articleList"])
+            ...mapState(["searchResult", "isUpdate"]),
+            ...mapGetters(["sourceArticle", "articleList"]),
+            mediaName() {
+                return this.mediaTypeList.filter(item => item.isSelected === true)
+            },
+            mediaSelectList() {
+                return this.mediaTypeList.filter(item => item.isSelected === false)
+            },
         },
         methods: {
             focusHandler() {
@@ -110,11 +146,32 @@
             //         this.isShowClear = true;
             //     }
             // }, 2000),
-            async goSohuSearch() {
+            async goSearch() {
+                let data = {url:this.keyword, type:this.mediaName[0]['name']}
+                if(data.type == '头条' || data.type == '百家号') {
+                    // this.getData('getToutiao', data);
+                    this.getData('getSohuSearch', data)
+                    let timer = setInterval(() => {
+                        // Object.keys(this.sourceArticle).length == 0
+                        if(!this.isUpdate) {
+                            console.log('发送了一次又一次');
+                            // this.getData('getToutiao', data);
+                            this.getData('getSohuSearch', data);
+                        } else {
+                            console.log('终于有数据了');
+                            clearInterval(timer);
+                        }
+                    }, 60 * 1000)
+                } else {
+                    this.getData('getSohuSearch', data)
+                }
+                this.isShowMedia = false;
+            },
+            async getData(actionName, data) {
                 try {
-                    await this.$store.dispatch('getSohuSearch', this.keyword);
+                    await this.$store.dispatch(actionName, data);
                 } catch (error) {
-                    console.log('搜狐搜索出现了问题', error);
+                    console.log('搜索发生了错误', error)
                 }
             },
             sourceFold() {
@@ -122,12 +179,31 @@
             },
             listFold() {
                 this.isShowList = !this.isShowList;
-            }
+            },
+            unfoldMediaSelect() {
+                this.isShowMedia = !this.isShowMedia
+            },
+            changeSelectedMedia(id) {
+                this.mediaTypeList.forEach(item=>{
+                    if(item.id == id) {
+                        item.isSelected = true;
+                    } else {
+                        item.isSelected = false;
+                    }
+                })
+            },
         },
     }
 </script>
 
 <style>
+    /* 这是为了解决多次点击出现部分蓝色的问题 */
+    body{
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none; 
+    }
     /* 头部 */
     .page-header {
         width: 800px;
@@ -138,7 +214,7 @@
     }
     .search-box {
         display: flex;
-        width: 565px;
+        width: 665px;
         height: 60px;
         /* background-color: orange; */
         border: 1px solid transparent;
@@ -147,9 +223,75 @@
         border-radius: 24px;
     }
     .search-box2 {
-        width: 552px;
+        width: 652px;
         height: 55px;
         display: flex;
+    }
+    .media-type {
+        width: 100px;
+        height: 58px;
+        /* background-color: aqua; */
+        margin: auto;
+        padding-left: 24px;
+        line-height: 58px;
+        /* position: relative; */
+    }
+    .selected {
+        height: 58px;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .select {
+        display: flex;
+        width: 76px;
+        height: 120px;
+        flex-direction: column;
+        position: relative;
+    }
+    .select div{
+        width: 76px;
+        height: 50px;
+        box-sizing: border-box;
+        position: absolute;
+        border: 1px solid #ccc;
+        border-top: none;
+        /* background-color: salmon; */
+        text-align: center;
+        line-height: 50px;
+        background-color: white;
+        /* box-shadow:  0 2px 8px 1px rgba(64,60,67,.24); */
+        /* border-bottom: none; */
+        
+    }
+    .select>div:nth-child(1) {
+        top: 4px;
+        border-top: 1px solid #ccc;
+    }
+    .select>div:nth-child(2) {
+        top: 54px;
+    }
+    .select>div:nth-child(3) {
+        top: 104px;
+        border-bottom: 1px solid #ccc;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    .select div:hover {
+        border: 1px solid #ccc;
+        box-shadow:  0 2px 8px 2px rgba(64,60,67,.24);
+        transform: scale(1.1);
+        z-index: 1;
+        background-color: white;
+    }
+    .select div:visited {
+        background-color: white;
+    }
+    .select div:active {
+        background-color: white;
+    }
+    .media-type div svg {
+        width: 20px;
+        height: 20px;
     }
     .search-item {
         width: 500px;
@@ -165,6 +307,7 @@
         background-color: transparent;
         font: 16px arial,sans-serif;
         padding-left:20px;
+        border-left: 1px solid #ccc;
     }
     .clear {
         width: 50px;

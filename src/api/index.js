@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const requests = axios.create({
-
+    timeout: 5 * 60 * 1000,
 });
 // 获取实时新闻数据
 export const reqNewsList = (type, page, pageSize) => {
@@ -23,3 +23,5 @@ export const reqUpdateDB = (date) => requests({method: 'get', url: `/api/update_
 export const reqInsertData = (date, total) => requests({method: 'get', url: `/api/insert_db/${date}/${total}`})
 // 启动搜狐爬虫
 export const reqSohuSearch = (data) => requests({method: 'post', url:'/api/start_sohusearch', data})
+// 启动头条搜索
+// export const reqToutiaoSearch = (data) => requests({method: 'post', url:'/api/start_toutiaosearch', data})
