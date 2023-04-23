@@ -18,17 +18,15 @@
 </script>
 
 <style>
+    .clearfix {
+        clear: both;
+    }
     .content-right {
-        position: relative;
-        right: 10px;
-        top: 0;
-        float: right;
-        z-index: 50;
-        /* top: 30%; */
-        /* left: 75%; */
-        width: 370px;
-        margin-right: 20px;
-        /* margin-left: 100px; */
-        margin-top: 80px;
+        position: fixed;
+        right: 0;
+        top: 80px;
+        width: 305px;
+        display: flex;
+        flex-direction: column;
     }
 </style>

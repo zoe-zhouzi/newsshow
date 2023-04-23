@@ -59,7 +59,10 @@
 
 <style>
     .calendar {
-        position: absolute;
-        z-index: 999;
+        height: 310px;
     }
+    .el-calendar-table th {
+        font-size: 14px;
+    }
+    
 </style>

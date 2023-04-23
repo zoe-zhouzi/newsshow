@@ -24,6 +24,19 @@
         padding: 0;
         box-sizing: border-box;
     }
+    .leftfix {
+        float: left;
+    }
+
+    .rightfix {
+        float: right;
+    }
+
+    .clearfix::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
     .router-div {
         display: inline-block;
         margin:0 auto;

@@ -6,17 +6,15 @@
         <div class="main">
             <div class="type">{{ type }}</div>
             <div class="dividing-line"></div>
-            <!-- <button @click="getData">点击获取数据</button> -->
             <div class="news-list">
                 <ul>
-                <li v-for="news in newsList" :key="news.id">
-                    <a :href="news.url">{{ news.title }}</a>
-                    <span>{{ news.publish_time }}</span>
-                </li>
-            </ul>
-            
-            <Pagination @sendCurrentPage="recCurrentPage" :pageSize="pageSize" :newsTotal="newsTotal"/>
+                    <li v-for="news in newsList" :key="news.id">
+                        <a :href="news.url">{{ news.title }}</a>
+                        <span>{{ news.publish_time }}</span>
+                    </li>
+                </ul>
             </div>
+            <Pagination @sendCurrentPage="recCurrentPage" :pageSize="pageSize" :newsTotal="newsTotal"/>
         </div>
     </div>
 </template>
@@ -25,7 +23,6 @@
     import { mapState } from 'vuex'
     import LeftNav from './LeftNav'
     import Pagination from '@/components/Pagination'
-    // import Graph from '@/components/Graph'
     export default {
         name: 'UpdatingNews',
         components: {
@@ -66,9 +63,6 @@
                 this.getDataByDate(selectedDate);
             }); */
         },
-        /* beforeDestroy() {
-            this.$bus.$off('sendDate');
-        }, */
         // 每次离开当前界面时，清除定时器
         destroyed() {
             clearInterval(this.timer)
@@ -155,96 +149,61 @@
     .real-time {
         position: relative;
         width: 1000px;
-        margin: 0 auto;
-
-    }
-
-    /* 记录总数的样式 */
-    .count {
-        position: absolute;
-        left: 850px;
-        top: 600px;
+        height: 800px;
         margin: 0 auto;
     }
     .main {
-        /* 让一个盒子水平居中 margin: 0 auto;*/
-        /* position: relative; */
         position: absolute;
         left: 120px;
         top: 80px;
-        /* margin-top: 80px; */
-        width: 1000px;
+        width: 800px;
         height: 580px;
-        // background-color: white;
-        /* overflow: scroll; */
-        /* overflow: auto; */
-        padding-right: 50px;
-        /* border: solid 1px gainsboro; */
     }
     .main .type {
         position: absolute;
-        /* left: 100px; */
         font-size: 32px;
     }
-    /* 这个能够让鼠标在新闻列表的时候显示滚动条，当鼠标移开时滚动条消失 */
-    /* .main:not(:hover)::-webkit-scrollbar { 
-        display: block;
-    } */
-
-    /* 隐藏滚动条 */
-    .main::-webkit-scrollbar {
-        display: none;
-    }
-    .main .news-list {
-        top: 60px;
+    .main .dividing-line {
         position: absolute;
-        
-    }
-    .dividing-line {
         height: 60px;
         border-bottom: 1px solid gainsboro;
         width: 730px;
     }
-    ul {
-        margin-top:  20px;
-        // border-top: 1px solid gainsboro;
+    .main .news-list {
+        position: absolute;
+        top: 60px;
+    }
+    .news-list ul {
+        margin-top:  10px;
         padding-inline-start: 0px;
     }
-    ul li {
+    .news-list ul li {
+        width: 800px;
         display: flex;
         /* 给li去掉默认的小圆点 */
         list-style-type: none;
         height: 50px;
-        /* 设置了能让文字在li中垂直居中 */
+        /* 设置了能让行内元素在li中垂直居中 */
         line-height: 50px;
-        width: 800px;
-        /* padding-right: 50px; */
-        /* padding-left: 50px; */
-        /* border-bottom: solid gainsboro 1px; */
-    }
-    ul li span {
-        /* margin-left: auto; */
-        margin-left: 10px;
-        color: rgb(156, 154, 154);
-        font-size: 10px;
-        width:25%;
     }
     ul li a {
+        width:75%;
         color: #333;
         /* 去掉下划线 */
         text-decoration: none;
-        margin-bottom: 4px;
-        margin-top: 4px;
-        padding-left: 10px;
-        padding-right: 10px;
-        width:75%;
+        /* 用来处理空白，如果没有这个，如果文字超过了的话，会换行显示，下面行会出现文字重叠 */
         white-space: nowrap;
         overflow:hidden;
         /* 用于确定如何提示用户存在隐藏的溢出内容 ellipsis表示省略号*/
         text-overflow: ellipsis;
     }
+    ul li span {
+        width:25%;
+        color: rgb(156, 154, 154);
+        /* 文字最小只能是12px，可以使用动画把字变得更小 */
+        font-size: 12px;  
+    } 
     ul li a:hover {
         text-decoration: underline;
     }
-
 </style>

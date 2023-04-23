@@ -19,7 +19,7 @@ export const reqNewsTotalByDate = (date) => requests({method: 'get', url: `/api/
 export const reqDayData = () => requests({method: 'get', url: '/api/get_day_data'});
 // 在爬取最近一周的数据之前先更新一下数据库中的周数据，执行一下插入数据
 export const reqUpdateDB = (date) => requests({method: 'get', url: `/api/update_db/${date}`})
-
+// 请求插入每天爬取总数的请求
 export const reqInsertData = (date, total) => requests({method: 'get', url: `/api/insert_db/${date}/${total}`})
 // 启动搜狐爬虫
 export const reqSohuSearch = (data) => requests({method: 'post', url:'/api/start_sohusearch', data})
