@@ -12,13 +12,13 @@
                                 <svg @click="unfoldMediaSelect" v-show="!isShowMedia" t="1681372143414" class="icon" viewBox="0 0 1778 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1950" width="200" height="200"><path d="M0 0h1776.015857L888.007929 1024z" fill="#979CA4" p-id="1951"></path></svg>
                             </div>
                         </div>
-                        <div class="select" v-show="isShowMedia">
-                            <div 
+                        <ul class="select" v-show="isShowMedia">
+                            <li 
                                 v-for="media in mediaSelectList" 
                                 :key="media.id"
                                 @click="changeSelectedMedia(media.id)"
-                            >{{ media.name }}</div>
-                        </div>
+                            >{{ media.name }}</li>
+                        </ul>
                     </div>
                     <div class="search-item">
                         <input 
@@ -72,7 +72,7 @@
                         <div class="text">
                             {{ article.text }}
                         </div>
-                        <a>{{ sourceArticle.url }}</a>
+                        <a href="sourceArticle.url">{{ sourceArticle.url }}</a>
                     </div>
                 </div>
             </div>
@@ -97,11 +97,17 @@
                 isShowList: false,
                 // 用来标识媒体类型的下拉框
                 isShowMedia: false,
+                // isShowMedia: true,
                 mediaTypeList: [
                     {id:1, name: '搜狐', isSelected: true,},
-                    {id:2, name: '百家号', isSelected: false, },
-                    {id:3, name: '头条', isSelected: false, },
-                    {id:4, name: '网易', isSelected: false, }
+                    {id:2, name: '百家号', isSelected: false,},
+                    {id:3, name: '头条', isSelected: false,},
+                    {id:4, name: '网易', isSelected: false,},
+                    {id:5, name: 'bilibili', isSelected: false,},
+                    {id:6, name: '微博', isSelected: false,},
+                    {id:7, name: '快手', isSelected: false,},
+                    {id:8, name: '微信', isSelected: false,},
+
                 ],
             }
         },
@@ -191,6 +197,7 @@
                         item.isSelected = false;
                     }
                 })
+                this.isShowMedia = false;
             },
         },
     }
@@ -217,10 +224,12 @@
         width: 665px;
         height: 60px;
         /* background-color: orange; */
-        border: 1px solid transparent;
-        box-shadow:  0 2px 8px 1px rgba(64,60,67,.24);
+        /* border: 1px solid transparent; */
+        border: 2px solid rgba(6, 183, 12, 0.4);
+        /* box-shadow:  0 2px 8px 1px rgba(64,60,67,.24); */
+        box-shadow:  0 0px 8px 0px rgba(6, 183, 12, 0.733);
         margin: auto;
-        border-radius: 24px;
+        border-radius: 28px;
     }
     .search-box2 {
         width: 652px;
@@ -230,11 +239,18 @@
     .media-type {
         width: 100px;
         height: 58px;
-        /* background-color: aqua; */
         margin: auto;
         padding-left: 24px;
         line-height: 58px;
-        /* position: relative; */
+        font-size: 16px;
+        border-top-left-radius: 24px;
+        border-bottom-left-radius: 24px;
+        background-color: limegreen;
+        color: white;
+    }
+    .media-type div svg {
+        width: 20px;
+        height: 20px;
     }
     .selected {
         height: 58px;
@@ -244,54 +260,36 @@
     .select {
         display: flex;
         width: 76px;
-        height: 120px;
         flex-direction: column;
         position: relative;
+        transition: linear 3s;
+        box-shadow:  0 0px 8px 0px rgba(6, 183, 12, 0.733);
     }
-    .select div{
-        width: 76px;
-        height: 50px;
-        box-sizing: border-box;
-        position: absolute;
-        border: 1px solid #ccc;
-        border-top: none;
-        /* background-color: salmon; */
-        text-align: center;
-        line-height: 50px;
+    .select li {
         background-color: white;
-        /* box-shadow:  0 2px 8px 1px rgba(64,60,67,.24); */
-        /* border-bottom: none; */
-        
+        text-align: center;
+        border: 1px solid #ccc;
+        /* border: 1px solid limegreen; */
+        border-top: 0;
+        height: 50px;
+        line-height: 50px;
+        /* background-color: limegreen; */
+        color: black;
     }
-    .select>div:nth-child(1) {
-        top: 4px;
+    .select li:first-child {
+        margin-top: 2px;
         border-top: 1px solid #ccc;
     }
-    .select>div:nth-child(2) {
-        top: 54px;
-    }
-    .select>div:nth-child(3) {
-        top: 104px;
-        border-bottom: 1px solid #ccc;
+    .select li:last-child {
         border-bottom-right-radius: 5px;
         border-bottom-left-radius: 5px;
     }
-    .select div:hover {
-        border: 1px solid #ccc;
+    .select li:hover {
         box-shadow:  0 2px 8px 2px rgba(64,60,67,.24);
-        transform: scale(1.1);
-        z-index: 1;
-        background-color: white;
-    }
-    .select div:visited {
-        background-color: white;
-    }
-    .select div:active {
-        background-color: white;
-    }
-    .media-type div svg {
-        width: 20px;
-        height: 20px;
+        transform: scale(1.02);
+        /* background-color: white; */
+        background-color: limegreen;
+        color: white;
     }
     .search-item {
         width: 500px;
@@ -307,7 +305,7 @@
         background-color: transparent;
         font: 16px arial,sans-serif;
         padding-left:20px;
-        border-left: 1px solid #ccc;
+        /* border-left: 1px solid #ccc; */
     }
     .clear {
         width: 50px;
@@ -330,26 +328,22 @@
         flex-direction: row-reverse;
     }
     .search-button svg {
-        /* width: 30px; */
         height: 30px;
         margin: auto;
     }
     /* 内容区 */
     .page-content {
         width: 800px;
-        /* background-color: #ccc; */
         margin: 0 auto;
     }
     /* 内容区 作者栏 */
     .page-content .author {
         width: 800px;
-        /* height: 100px; */
-        box-shadow:  0 2px 8px 1px rgba(64,60,67,.24);
+        /* box-shadow:  0 2px 8px 1px rgba(64,60,67,.24); */
+        box-shadow:  0 0px 8px 0px rgba(6, 183, 12, 0.733);
         border-radius: 4px;
-        /* background-color: aquamarine; */
         margin-bottom: 10px;
         line-height: 100px;
-        /* text-align: center; */
         padding-left: 24px;
     }
     /* 内容区，原文栏 */
@@ -357,7 +351,8 @@
         width: 800px;
     }
     .page-content .source .source-title {
-        box-shadow:  0 2px 8px 1px rgba(64,60,67,.24);
+        /* box-shadow:  0 2px 8px 1px rgba(64,60,67,.24); */
+        box-shadow:  0 0px 8px 0px rgba(6, 183, 12, 0.733);
         border-radius: 4px;
         margin-bottom: 10px;
         line-height: 100px;
@@ -372,7 +367,8 @@
         height: 50px;
     }
     .origin-article {
-        box-shadow:  0 2px 8px 1px rgba(64,60,67,.24);
+        /* box-shadow:  0 2px 8px 1px rgba(64,60,67,.24); */
+        box-shadow:  0 0px 8px 0px rgba(6, 183, 12, 0.733);
         border-radius: 4px;
         margin-top: 10px;
         margin-bottom: 10px;
@@ -395,7 +391,8 @@
         /* background-color: rgb(195, 127, 255); */
     }
     .page-content .article-list .list-title {
-        box-shadow:  0 2px 8px 1px rgba(64,60,67,.24);
+        /* box-shadow:  0 2px 8px 1px rgba(64,60,67,.24); */
+        box-shadow:  0 0px 8px 0px rgba(6, 183, 12, 0.733);
         border-radius: 4px;
         /* margin-bottom: 1px; */
         line-height: 100px;

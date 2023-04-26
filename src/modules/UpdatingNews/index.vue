@@ -2,6 +2,7 @@
     <div class="real-time">
         <el-button class="el-buttons" @click="goTenNews">点击我进入动态滚动新闻</el-button>
         <el-button class="el-buttons" @click="goSohuSearch">点击我进入搜狐搜索页</el-button>
+        <el-button class="el-buttons" @click="goBatchSearch">点击我进入批量搜索页</el-button>
         <LeftNav @sendType="reiceiveType" />
         <div class="main">
             <div class="type">{{ type }}</div>
@@ -69,6 +70,10 @@
             this.timer = null
         },
         methods:{
+            // 进入批量搜索页面
+            goBatchSearch() {
+                this.$router.push('/batchsearch');
+            },
             // 进入搜狐搜索页面
             goSohuSearch() {
                 this.$router.push('/sohusearch');
@@ -79,7 +84,7 @@
                     // 每隔60秒向后台发送一次请求
                     this.timer = setInterval(()=>{
                         this.getData()
-                    },30000)
+                    },5*60*1000)
                 }
             },
             // 请求新闻数据的方法

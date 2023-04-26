@@ -6,6 +6,8 @@ import UpdatingNews from '@/modules/UpdatingNews'
 import PassedNews from '@/modules/PassedNews'
 import TenNews from '@/modules/TenNews'
 import SohuSearch from '@/modules/SohuSearch'
+import BatchSearch from '@/modules/BatchSearch'
+
 
 Vue.use(VueRouter);
 
@@ -53,6 +55,14 @@ export default new VueRouter({
         {
             path: '/sohusearch',
             component: SohuSearch,
+            meta: {
+                isShowLeft: false,
+                isShowRight: false,
+            }
+        },
+        {
+            path: '/batchsearch',
+            component: BatchSearch,
             meta: {
                 isShowLeft: false,
                 isShowRight: false,

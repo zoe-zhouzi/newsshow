@@ -18,7 +18,6 @@ Vue.component(Button.name, Button);
 // import DynamicMarquee from 'vue-dynamic-marquee';
 // Vue.component('dynamic-marquee', DynamicMarquee);
 
-
 new Vue({
     beforeCreate() {
         // 注册全局数据总线
